@@ -129,13 +129,25 @@ export default {
       };
 
       // 弹幕
-      live.on('DANMU_MSG', ({ info: [, message, [uid, uname, isOwner]], dm_v2 }) => {
-        handleDanmaku({ uid, uname, message, isOwner, dmV2: dm_v2 });
+      live.on('DANMU_MSG', data => {
+        const {
+          info: [something, message, [uid, uname, isOwner]],
+          dm_v2,
+        } = data;
+        console.log(data);
+        const title = data.info[3][1];
+        console.log(title);
+        const face = something[15].user.base.face;
+        const props = { uid, uname, message, isOwner, dmV2: dm_v2, face, title };
+        if (!title) {
+          delete props.title;
+        }
+        handleDanmaku(props);
       });
       live.on('LIVE_OPEN_PLATFORM_DM', ({ data: { uid, uname, msg, uface } }) => {
         handleDanmaku({ uid, uname, message: msg, face: uface });
       });
-      const handleDanmaku = ({ uid, uname, message, isOwner, dmV2, face }) => {
+      const handleDanmaku = ({ uid, uname, message, isOwner, dmV2, face, title }) => {
         if (isBlockedUID(uid)) {
           console.log(`屏蔽了来自[${uname}]的弹幕：${message}`);
           return;
@@ -149,6 +161,7 @@ export default {
           isAnchor: uid === props.anchor,
           isOwner: !!isOwner,
           face,
+          title,
         };
         if (dmV2) {
           try {

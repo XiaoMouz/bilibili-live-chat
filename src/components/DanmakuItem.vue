@@ -1,27 +1,31 @@
 <template>
   <div class="danmaku-item" :class="{ hidden: isHidden }">
-    <img v-if="showFace && face" class="danmaku-author-face" :src="face" />
-    <div v-if="type === 'message'" class="danmaku-content">
-      <span class="danmaku-author-name with-colon" :class="{ anchor: isAnchor, owner: isOwner }">{{ uname }}</span>
-      <span class="danmaku-message">{{ message }}</span>
+    <div>
+      <img v-if="showFace && face" class="danmaku-author-face" :src="face" />
     </div>
-    <div v-else-if="type === 'gift'" class="danmaku-content">
-      <span class="danmaku-message">感谢&nbsp;</span>
-      <span class="danmaku-author-name">{{ uname }}</span>
-      <span class="danmaku-message">&nbsp;赠送的&nbsp;</span>
-      <span class="danmaku-gift-name">{{ giftName }}</span>
-      <template v-if="num">
-        <span class="danmaku-message">&nbsp;×&nbsp;</span>
-        <span class="danmaku-gift-num">{{ num }}</span>
-      </template>
-    </div>
-    <div v-else-if="type === 'sc'" class="danmaku-content">
-      <span class="danmaku-message">感谢&nbsp;</span>
-      <span class="danmaku-author-name">{{ uname }}</span>
-      <span class="danmaku-message">&nbsp;的SC：{{ message }}</span>
-    </div>
-    <div v-else-if="type === 'info'" class="danmaku-content">
-      <span class="danmaku-message info">{{ message }}</span>
+
+    <div class="content-wrapper">
+      <div v-if="type === 'message'" class="danmaku-content">
+        <div class="danmaku-author-wrapper">
+          <span class="danmaku-author-name" :class="{ anchor: isAnchor, owner: isOwner }">{{ uname }}</span>
+          <span v-if="title" class="badge">{{ title }}</span>
+        </div>
+        <div class="danmaku-message">{{ message }}</div>
+      </div>
+      <div v-else-if="type === 'gift'" class="danmaku-content">
+        <span class="danmaku-author-name">{{ uname }}</span>
+        <div class="danmaku-message">
+          赠送 <span class="danmaku-gift-name">{{ giftName }}</span>
+          <template v-if="num">&times;{{ num }}</template>
+        </div>
+      </div>
+      <div v-else-if="type === 'sc'" class="danmaku-content">
+        <span class="danmaku-author-name">{{ uname }}</span>
+        <div class="danmaku-message">SC：{{ message }}</div>
+      </div>
+      <div v-else-if="type === 'info'" class="danmaku-content">
+        <div class="danmaku-message info">{{ message }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +50,7 @@ export default {
     num: Number,
     stay: Number,
     hidden: Boolean,
+    title: String,
   },
   setup(props) {
     const hidden = ref(false);
@@ -66,108 +71,82 @@ export default {
 </script>
 
 <style lang="scss">
-@keyframes danmakuIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+// use Font JinNan
+
 .danmaku {
   &-item {
-    padding: 4px;
+    padding: 6px 6px;
     display: flex;
-    flex-direction: row;
     align-items: flex-start;
-    transition: opacity 0.5s;
-    user-select: none;
-    text-shadow:
-      -2px -2px #000000,
-      -2px -1px #000000,
-      -2px 0 #000000,
-      -2px 1px #000000,
-      -2px 2px #000000,
-      -1px -2px #000000,
-      -1px -1px #000000,
-      -1px 0 #000000,
-      -1px 1px #000000,
-      -1px 2px #000000,
-      0 -2px #000000,
-      0 -1px #000000,
-      0 0 #000000,
-      0 1px #000000,
-      0 2px #000000,
-      1px -2px #000000,
-      1px -1px #000000,
-      1px 0 #000000,
-      1px 1px #000000,
-      1px 2px #000000,
-      2px -2px #000000,
-      2px -1px #000000,
-      2px 0 #000000,
-      2px 1px #000000,
-      2px 2px #000000;
-    animation: 0.5s danmakuIn;
-    opacity: 1;
-    &.hidden {
-      opacity: 0;
-    }
+    background: rgba(104, 104, 104, 0.9);
+    border-radius: 8px;
+    margin: 4px 0;
+    backdrop-filter: blur(9px);
+    --webkit-backdrop-filter: blur(9px);
+    max-width: 225px;
+    transition: all 0.3s;
   }
+
   &-author-face {
-    width: 24px;
-    height: 24px;
-    border-radius: 24px;
-    margin-right: 6px;
-    display: inline-block;
-    pointer-events: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    margin-right: 12px;
+    flex-shrink: 0;
   }
-  &-content {
-    overflow: initial;
-    align-self: center;
+
+  .content-wrapper {
+    flex: 1;
+    min-width: 0;
   }
+
+  &-author-wrapper {
+    display: flex;
+    gap: 0.4rem;
+  }
+
   &-author-name {
-    color: #8cd9ff;
-    &.with-colon::after {
-      content: '：';
-      margin-left: 2px;
-    }
-    // 主播
+    display: block;
+    font-family: 'HeiTi';
+    font-size: 15px;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    color: white;
+    text-shadow: 1px 1px 4px black;
+
     &.anchor {
       color: #fff248;
+      text-shadow: 1px 1px 4px rgb(206, 195, 0);
     }
-    // 房管
     &.owner {
       color: #ff9800;
+      text-shadow: 1px 1px 4px rgb(141, 85, 0);
     }
   }
-  &-message,
-  &-gift-num {
+
+  &-message {
+    font-size: 15px;
+    line-height: 1.3;
     color: #fff;
+    word-break: break-word;
+    font-family: 'HeiTi';
+    &.info {
+      color: #ccc;
+      font-size: 14px;
+    }
   }
+
   &-gift-name {
     color: #eb76ff;
+    margin: 0 4px;
   }
-  &-message {
-    font-family: 'Imprima', 'Microsoft YaHei';
-    font-size: 18px;
-    line-height: 18px;
-    &.info {
-      white-space: pre-wrap;
-    }
-  }
-  &-gift-num {
-    font-family: 'Imprima', 'Microsoft YaHei';
-    font-size: 20px;
-    line-height: 20px;
-    font-weight: 500;
-  }
-  &-author-name,
-  &-gift-name {
-    font-family: 'Changa One', 'Microsoft YaHei';
-    font-size: 20px;
-    line-height: 20px;
-    font-weight: 500;
-  }
+}
+.badge {
+  background-color: rgb(46, 167, 238);
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-left: 4px;
 }
 </style>
