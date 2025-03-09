@@ -2,32 +2,6 @@
   <div id="custom-css" style="display: none"></div>
   <DanmakuItem v-if="errMsg" type="info" :message="errMsg" />
   <Live v-else-if="ready" v-bind="props" :live-ws-options="liveWsOptions" />
-  <DanmakuItem
-    showFace="true"
-    isOwner="true"
-    uid="23333"
-    uname="XiaoMouz"
-    message="233333333333333333333333333333333333333333333333333333333"
-    face="https://avatars.githubusercontent.com/u/54032212?s=400&v=4"
-  />
-  <DanmakuItem
-    showFace="true"
-    isAnchor="true"
-    uid="23333"
-    uname="XiaoMouz"
-    message="233333333333333333333333333333333333333333333333333333333"
-    face="https://avatars.githubusercontent.com/u/54032212?s=400&v=4"
-  />
-  <DanmakuItem
-    type="gift"
-    isAnchor="true"
-    showFace="true"
-    uid="23333"
-    uname="天人之姿独断万古"
-    giftName="紫色心情"
-    message="23333333333"
-    face="https://avatars.githubusercontent.com/u/54032212?s=400&v=4"
-  />
 </template>
 
 <script>

@@ -9,7 +9,7 @@ export const getResp = (url, options = {}) => fetch(url, { referrer: '', referre
 export const get = (url, options) => getResp(url, options).then(r => r.json());
 
 export const corsGetResp = (url, options) =>
-  fetch('https://mashir0-blcp.hf.space/', {
+  fetch('https://xiaomouz-blc-proxy.hf.space/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url, ...pick(options, ['method', 'headers', 'body']) }),
