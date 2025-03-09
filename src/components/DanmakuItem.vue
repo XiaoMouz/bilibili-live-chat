@@ -102,13 +102,14 @@ export default {
 
   &-author-wrapper {
     display: flex;
+    align-items: center;
     gap: 0.4rem;
   }
 
   &-author-name {
     display: block;
     font-family: 'HeiTi';
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.2;
     margin-bottom: 2px;
     color: white;
@@ -125,7 +126,7 @@ export default {
   }
 
   &-message {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.3;
     color: #fff;
     word-break: break-word;
