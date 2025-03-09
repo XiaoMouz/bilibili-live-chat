@@ -108,7 +108,7 @@ export default {
   &-author-name {
     display: block;
     font-family: 'HeiTi';
-    font-size: 15px;
+    font-size: 12px;
     line-height: 1.2;
     margin-bottom: 2px;
     color: white;
@@ -125,7 +125,7 @@ export default {
   }
 
   &-message {
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.3;
     color: #fff;
     word-break: break-word;
